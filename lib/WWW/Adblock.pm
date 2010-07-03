@@ -40,15 +40,14 @@ Creates a new object.  If C<$filters> is given it is passed to C<< $adblock->loa
 # method may construct an object and you can have as many as you like.
 
 sub new {
-    my($class, %args) = @_;
+    my ( $class, %args ) = @_;
 
-    my $self = bless({}, $class);
+    my $self = bless( {}, $class );
 
     $self->{filters} = {};
 
     return $self;
 }
-
 
 =head3 load
 
@@ -59,38 +58,44 @@ Loads and parses a ruleset.  May be called multiple times, new rules are added t
 =cut
 
 sub load {
-    my ($self, $file) = @_;
+    my ( $self, $file ) = @_;
 
     my $rules = 0;
 
     my $fh = new IO::File $file, O_RDONLY;
-    if (defined $fh) {
+    if ( defined $fh ) {
         foreach my $line (<$fh>) {
             chomp $line;
-            
+
             next if exists $self->{filters}{$line};
 
             # The first line of the file
-            if ($line =~ m/^\[Adblock/) {
+            if ( $line =~ m/^\[Adblock/ ) {
                 next;
 
-            # A comment line starts with !
-            } elsif ($line =~ m/^!/) {
+                # A comment line starts with !
+            }
+            elsif ( $line =~ m/^!/ ) {
                 next;
 
-            # Element hiding rules, currently unsupported
-            } elsif ($line =~ /^([^\/\*\|\@"]*?)#(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/) {
+                # Element hiding rules, currently unsupported
+            }
+            elsif ( $line =~
+/^([^\/\*\|\@"]*?)#(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/
+              )
+            {
                 next;
 
-            } else {
-                my $filter = WWW::Adblock::RegexFilter->new('text' => $line);
-                if (defined $filter) {
+            }
+            else {
+                my $filter = WWW::Adblock::RegexFilter->new( 'text' => $line );
+                if ( defined $filter ) {
                     $self->{filters}{$line} = $filter;
                     $rules++;
                 }
             }
         }
-        undef $fh;       # automatically closes the file
+        undef $fh;    # automatically closes the file
     }
 
     return $rules;
@@ -109,16 +114,16 @@ Checks a URI to see whether it matches any rules.  Returns 0 for no match, 1 for
 =cut
 
 sub filter {
-    my ($self, $uri, $domain) = @_;
+    my ( $self, $uri, $domain ) = @_;
 
     return 0 unless defined $uri;
 
     # TODO: Implement a results cache?  Would help with frequently
     #       hit filters
 
-    foreach my $f (keys %{$self->{filters}}) {
+    foreach my $f ( keys %{ $self->{filters} } ) {
         my $filter = $self->{filters}{$f};
-        my $result = $filter->matches($uri, $domain);
+        my $result = $filter->matches( $uri, $domain );
         return $result if $result;
     }
 
