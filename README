@@ -2,7 +2,8 @@ WWW::Adblock
 ============
 
 This module is a very simple Perl implementation of the Adblock Plus 
-extension for Firefox.  It supports URL filtering.
+extension for Firefox.  Currently it supports URL filtering but not
+element blocking.
 
 INSTALLATION
 
