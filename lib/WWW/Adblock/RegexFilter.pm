@@ -33,8 +33,8 @@ sub new {
     $self->{domains} = undef;
     $self->{regex} = undef;
 
-    return undef unless exists $args{text};
-    return undef unless $self->_from_text($args{text});
+    return unless exists $args{text};
+    return unless $self->_from_text($args{text});
 
     return $self;
 }
