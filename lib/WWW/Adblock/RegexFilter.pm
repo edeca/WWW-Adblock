@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use 5.006;
 
+our $VERSION = "0.01";
+
 =head1 NAME
 
 WWW::Adblock::RegexFilter - implement a single Adblock filter
