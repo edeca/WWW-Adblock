@@ -41,7 +41,7 @@ sub new {
     return $self;
 }
 
-=head3
+=head3 _from_text
 
   $f->_from_text("filter text");
 
