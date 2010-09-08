@@ -6,7 +6,7 @@ use 5.006;
 use IO::File;
 use WWW::Adblock::RegexFilter;
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 =head1 NAME
 

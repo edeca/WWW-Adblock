@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use 5.006;
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 =head1 NAME
 
@@ -102,7 +102,7 @@ sub _from_text {
     $text =~ s/^\\\|/^/;       # Start anchor
     $text =~ s/\\\|$/\$/;      # End anchor
 
-    $self->{regex} = $text;
+    $self->{regex} = qr/$text/;
     return 1;
 }
 
@@ -119,8 +119,7 @@ sub matches {
         }
     }
 
-    my $r = $self->{regex};
-    if ( $uri =~ m/$r/ ) {
+    if ( $uri =~ $self->{regex} ) {
 
         #print "$uri matched $r (mode " . $self->{type} . ")\n";
         return 1 if $self->{type} eq 'blocking';
